@@ -33,9 +33,7 @@ const makeHtml = (data) => {
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	getData(1).then(data => {
-		let html = makeHtml(data.projects);
-		console.log(html);
-		res.render('index', { app: html });
+		res.render('index', { app: data.projects });
 	});
 });
 

@@ -1,7 +1,7 @@
-const config = () => {
+const Config = () => {
 	return {
 		apiKey: 'f7z4iCYJqvH3YJfI',
 	}
 }
 
-module.exports = config();
+module.exports = Config();

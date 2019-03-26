@@ -1,39 +1,24 @@
 const express = require('express');
-const config = require('../components/credentials/index.js');
 const router = express.Router();
-const fetch = require('node-fetch');
 
-/* Get Data */
-const getData = (page) => {
-	return new Promise((resolve, reject) => {
-		let url = `http://api.hackaday.io/v1/projects?page=${page}&per_page=10&api_key=${config.apiKey}`;
-		fetch(url)
-	    .then(response => response.json())
-	    .then(data => {
-	    	resolve(data);
-	    });
-	})
-}
-
-/* Generate page content */
-const makeHtml = (data) => {
-	let output = `<div>`;
-	data.forEach(data => {
-		let card = `<div class'card'>`;
-		card = card + `<h1>${data.name}</h1>`;
-		card = card + `<p>${data.summary}</p>`;
-		card = card + `</div>`;
-		output = output + card;
-	});
-	output = output + `</div>`;
-	return output;
-}
-
+// My modules
+let template = require(`../components/Layouts/GenTemplate/index.js`);
+let project = require(`../components/Layouts/Attributes/Project/index.js`);
+const ProjectData = require(`../components/DataAccess/Projectdata/index.js`);
+const Card = require(`../components/Layouts/Card/index.js`);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-	getData(1).then(data => {
-		res.render('index', { app: data.projects });
+	ProjectData.getData(1).then(data => {
+		let allCards = '';
+		data.projects.forEach((singleProject) => { 
+			allCards = allCards + Card.getCardTag(singleProject);
+		});
+		let addIndex = project.indexOf('</Project>');
+		project = [project.slice(0, addIndex), allCards, project.slice(addIndex)].join('');
+		addIndex = template.indexOf('</body>');
+		template = [template.slice(0, addIndex), project, template.slice(addIndex)].join('');
+		res.set({'content-type': 'text/html'}).status(201).send(template);
 	});
 });
 

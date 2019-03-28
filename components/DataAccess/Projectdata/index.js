@@ -8,7 +8,7 @@ function ProjectData() {
 
 ProjectData.prototype.getData = function(page) {
 	return new Promise((resolve, reject) => {
-		if(page === this.page && data) {
+		if(page === this.page && this.data) {
 			resolve(this.data);
 		} else {
 			let url = `http://api.hackaday.io/v1/projects?page=${page}&per_page=10&api_key=${config.apiKey}`;

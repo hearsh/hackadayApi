@@ -1,8 +1,14 @@
 const Html = require(`../Global/index.js`);
 const Head = require(`../Head/index.js`);
 const Body = require(`../Body/index.js`);
+const sass = require('node-sass');
 
 const GenTemplate = () => {
+	let scss_content = `components/Sass/index.sass`;
+	let result = sass.renderSync({
+	  file: scss_content,
+	});
+	Head.setCss(result.css.toString('utf8'));
 	Head.setTitle('Projects');
 	let headTemplate = Head.getTemplate();
 	let addIndex = Html.indexOf('</html>'); 

@@ -14,6 +14,7 @@ Head.prototype.setCss = function(css) {
 Head.prototype.getTemplate = function() {
 	return `<head><meta charset="utf-8">
 	<title>${this.title}</title>
+	<style>${this.css}</style>
 	</head>`;
 }
 

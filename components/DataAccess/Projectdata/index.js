@@ -1,4 +1,5 @@
 const config = require(`../../Credentials/index.js`);
+const usersApi = require(`../Userdata/index.js`);
 const fetch = require('node-fetch');
 
 function ProjectData() {
@@ -15,9 +16,19 @@ ProjectData.prototype.getData = function(page) {
 			fetch(url)
 		    .then(response => response.json())
 		    .then(data => {
-		    	this.data = data;
-		    	this.page = page;
-		    	resolve(data);
+		    	let userId = '';
+		    	for(let i = 0; i < data.projects.length; i++) {
+		    		userId = userId + data.projects[i].owner_id + ',';
+		    	}
+		    	url = `http://api.hackaday.io/v1/users/batch?ids=${userId}&api_key=${config.apiKey}`
+		    	fetch(url)
+		    	.then(response => response.json())
+		    	.then(userData => {
+		    		usersApi.setUserData(userData.users);
+		    		this.data = data;
+			    	this.page = page;
+			    	resolve(data);
+		    	});
 		    });
 		}
 	});

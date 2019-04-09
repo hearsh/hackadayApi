@@ -10,9 +10,10 @@ const GenTemplate = () => {
 	});
 	Head.setCss(result.css.toString('utf8'));
 	Head.setTitle('Projects');
+	let bodyTag = Body.getBodyTag('./javascripts/app.js');
 	let headTemplate = Head.getTemplate();
 	let addIndex = Html.indexOf('</html>'); 
-	let template = [Html.slice(0, addIndex), headTemplate, Body, Html.slice(addIndex)].join('');
+	let template = [Html.slice(0, addIndex), headTemplate, bodyTag, Html.slice(addIndex)].join('');
 	return template;
 }
 

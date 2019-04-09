@@ -1,5 +1,12 @@
-const Body = (js) => {
-	return `<body></body>`;
+function Body() {
+	this.js = null;
 }
 
-module.exports = Body();
+Body.prototype.getBodyTag = function(js) {
+	this.js = js;
+	return `<body>
+	<script type="application/javascript" src="${this.js}"></script>
+	</body>`;
+}
+
+module.exports = new Body();

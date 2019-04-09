@@ -1,10 +1,12 @@
 function Paragraph() {
 	this.content = null;
+	this.className = null;
 }
 
-Paragraph.prototype.getParagraphTag = function(content) {
+Paragraph.prototype.getParagraphTag = function(content, className) {
 	this.content = content;
-	return `<p>${this.content}</p>`;
+	this.className = className;
+	return `<p class='${this.className ? this.className : ''}' >${this.content}</p>`;
 }
 
 module.exports = new Paragraph();

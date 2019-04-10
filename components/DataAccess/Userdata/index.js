@@ -5,7 +5,7 @@ function Userdata() {
 
 Userdata.prototype.setUserData = function (data){
 	this.users = data;
-	for(let i = 0; i < this.users; i++) {
+	for(let i = 0; i < this.users.length; i++) {
 		this.userDic[this.users[i].id] = this.users[i];
 	}
 }
@@ -20,6 +20,22 @@ Userdata.prototype.getUserName = function (id) {
 			}
 		}
 	}
+}
+
+Userdata.prototype.getUserData = function (id) {
+	if(this.userDic[id] !== undefined) {
+		return this.userDic[id];
+	} else {
+		for(let i = 0 ; i < this.users.length; i++) {
+			if(this.users[i].id === id) {
+				return this.users[i];
+			}
+		}
+	}
+}
+
+Userdata.prototype.getAllUsers = function () {
+	return this.userDic;
 }
 
 module.exports = new Userdata();

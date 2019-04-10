@@ -1,12 +1,15 @@
 var express = require('express');
 var router = express.Router();
 
-const UserApi = require('../components/DataAccess/Userdata/index.js');
+const UserName = require(`../components/DataAccess/Userdata/index.js`);
 
-/* GET users listing. */
+/* Send user data. */
 router.get('/', function(req, res, next) {
-	console.log(res.params.id);
-  res.send('respond with a resource');
+	let userData = UserName.getAllUsers();
+	res.status(200);
+	res.json({
+		'userData': userData,
+	});
 });
 
 module.exports = router;

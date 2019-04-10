@@ -14,7 +14,9 @@ Card.prototype.getCardTag = function(data, userName) {
 	this.userName = userName;
 	let heading = Heading.getHeadingTag(this.data.name, 'h1');
 	let para = Paragraph.getParagraphTag(this.data.summary, 'summary');
-	let userNameTag = Anchor.getAnchorTag(`Created By ${userName}`, 'user-name', null, `showUserTip('${data.owner_id}')`);
+	let userNameTag = `<div class='user-info con-tooltip top' id='${data.owner_id}'>
+										${Paragraph.getParagraphTag(`Created By ${userName}`, 'user-name')}
+										</div>`;
 	let imgDiv = Div.getDivTag('img-div', this.data.image_url);
 	let textDiv = Div.getDivTag('text-div', null);
 	let addIndex = textDiv.indexOf('</div>'); 

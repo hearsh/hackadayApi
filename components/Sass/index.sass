@@ -23,6 +23,11 @@ img
 .test-div > a
 	text-decoration: none
 
+button:disabled, button[disabled]
+  border: 1px solid #999999
+  background-color: #cccccc
+  color: #666666
+
 /*tooltip Box*/
 
 .con-tooltip
@@ -46,7 +51,7 @@ img
   background: #333
   color: #E086D3
   position: absolute
-  top: -160%
+  top: -170%
   left: -25%
   border-radius: 9px
   font-size: 16px
@@ -66,7 +71,6 @@ img
     bottom: -10px
 
 /* tooltip  after*/
-
 .user-name
 	display: inline-block
 	padding: 10px 0px
@@ -84,16 +88,69 @@ img
   100%
     transform: translateY(1px)
 
-
-.top:hover
-  transform: translateY(-6px)
-
 .tooltip-img > img
 	width: 100px
 	margin-right: 10px
 
 .tooltip-txt > p
 	margin: 0px
+
+.lds-dual-ring 
+  display: inline-block
+  width: 64px
+  height: 64px
+  margin: auto
+
+.lds-dual-ring:after 
+  content: " "
+  display: block
+  width: 46px
+  height: 46px
+  margin: 1px
+  border-radius: 50%
+  border: 5px solid #222
+  border-color: #222 transparent #222 transparent
+  animation: lds-dual-ring 1.2s linear infinite
+
+@keyframes lds-dual-ring
+  0%
+    transform: rotate(0deg)
+  
+  100% 
+    transform: rotate(360deg)
+
+.arrows
+	width: 100%
+	text-align: center
+	display: inline-block
+
+.btn
+  width: 85px
+  margin: 5px
+  padding: 5px
+  font-size: 14px
+  font-size: 1.4rem
+  text-align: center
+  color: #000
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#c19f54), to(#a6853c))
+  background-image: linear-gradient(-180deg, #c19f54 0%, #a6853c 100%)
+  background-repeat: round
+  border: 1px solid #c19f54
+  border-radius: 2px
+  opacity: 1
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=$opacity-ie)"
+  filter: alpha(opacity=100)
+  -webkit-transition: all .2s ease-in
+  transition: all .2s ease-in
+  cursor: pointer
+  display: inline-block
+
+.btn:hover
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#c8aa67), to(#b99443))
+  background-image: linear-gradient(-180deg, #c8aa67 0%, #b99443 100%)
+  border-color: #c8aa67
+  color: #000
+
 
 
 

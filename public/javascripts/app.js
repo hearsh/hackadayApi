@@ -35,6 +35,74 @@ const GenerateToltip = () => {
 	});
 }
 
+const CreateLoadingScreen = (project) => {
+	let div = document.createElement("div");
+	div.className = "lds-dual-ring";
+	project.appendChild(div);
+	let paraName = document.createElement("P");
+	paraName.style = 'text-align:center';
+	let textName = document.createTextNode(`Fetching the projects`);
+	paraName.appendChild(textName);
+	project.appendChild(paraName);
+}
+
+const ClearDiv = (div) => {
+	while (div.firstChild) {
+		div.removeChild(div.firstChild);
+	}
+	return true
+}
+
+const GetUrl = () => {
+	let hash = window.location.hash;
+	if(hash.indexOf('#') !== -1) {
+		let index = hash.indexOf('#');
+		let page = hash.slice(index + 1);
+		if(!isNaN(page)) {
+			let project = document.getElementById('project');
+	  	if(ClearDiv(project)) {
+	  		CreateLoadingScreen(project);
+	  	}
+			let data = {
+				'id': page,
+			}
+			let url = `getPage`
+			fetch(url, {
+		    method: "POST",
+		    mode: "cors",
+		    cache: "no-cache",
+		    credentials: "same-origin",
+		    headers: {
+		      "Content-Type": "application/json",
+		    },
+		    redirect: "follow",
+		    referrer: "no-referrer",
+		    body: JSON.stringify(data), 
+		  })
+		  .then(response => response.text())
+		  .then(pageData => {
+		  	if(ClearDiv(project)) {
+		  		project.innerHTML = pageData;
+					GenerateToltip();
+		  	}
+		  });
+		}
+	}
+}
+
+const Change = (id) => {
+	window.location.hash = `${id}`;
+	GetUrl();
+}
+
+let hash = window.location.hash;
+if(hash.indexOf('#') !== -1) {
+	let index = hash.indexOf('#');
+	let page = hash.slice(index + 1);
+	if(!isNaN(page)) {
+		GetUrl();
+	}
+}
 
 if(document.readyState === "complete" || 
 	(document.readyState !== "loading" && !document.documentElement.doScroll)){

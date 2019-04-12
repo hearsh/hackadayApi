@@ -34,7 +34,7 @@ router.get('/', function(req, res, next) {
 router.get('/projects/:id', function(req, res, next) {
 	let id = req.params.id;
 	ProjectData.getSingleProject(id).then(projectdata => {
-		let singleProjectDiv = SingleProject.getTemplate(projectdata);
+		let singleProjectDiv = SingleProject.getTemplate(projectdata, ProjectData.returnPageNumber());
 		let divTag = Div.getDivTag('content');
 		let addIndex = divTag.indexOf('</div>');
 		let content = [divTag.slice(0, addIndex), singleProjectDiv, divTag.slice(addIndex)].join('');

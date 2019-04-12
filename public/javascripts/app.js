@@ -36,14 +36,17 @@ const GenerateToltip = () => {
 }
 
 const CreateLoadingScreen = (project) => {
+	let Parentdiv = document.createElement("div");
+	Parentdiv.className = "loader";
 	let div = document.createElement("div");
 	div.className = "lds-dual-ring";
-	project.appendChild(div);
 	let paraName = document.createElement("P");
 	paraName.style = 'text-align:center';
-	let textName = document.createTextNode(`Fetching the projects`);
+	let textName = document.createTextNode(`Fetching projects`);
 	paraName.appendChild(textName);
-	project.appendChild(paraName);
+	Parentdiv.appendChild(div);
+	Parentdiv.appendChild(paraName);
+	project.appendChild(Parentdiv);
 }
 
 const ClearDiv = (div) => {

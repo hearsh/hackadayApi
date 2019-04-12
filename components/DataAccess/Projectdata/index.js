@@ -5,7 +5,12 @@ const fetch = require('node-fetch');
 function ProjectData() {
 	this.data = null;
 	this.page = null;
+	this.pageNumber = 1;
 	this.pageDic = {};
+}
+
+ProjectData.prototype.returnPageNumber = function() {
+	return this.pageNumber;
 }
 
 ProjectData.prototype.setProjectData = function(data) {
@@ -31,6 +36,7 @@ ProjectData.prototype.getSingleProject = function(id) {
 
 ProjectData.prototype.getPageData = function(page) {
 	return new Promise((resolve, reject) => {
+		this.pageNumber = page;
 		if(page === this.page && this.data) {
 			resolve(this.data);
 		} else {

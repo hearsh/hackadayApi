@@ -1,3 +1,7 @@
+body
+  margin: 0px
+  max-width: 100%
+
 Card
 	display: flex
 	margin: auto
@@ -5,6 +9,9 @@ Card
 	border: 1px solid #ebebeb
 	width: 100%
 	margin: 10px auto
+
+h1
+  margin: 10px 0px
 
 .img-div
 	width: 200px
@@ -20,8 +27,11 @@ img
 	padding: 0 10px
 	width: auto
 
-.test-div > a
-	text-decoration: none
+.text-div > p
+  margin: 0px
+
+a
+  text-decoration: none
 
 button:disabled, button[disabled]
   border: 1px solid #999999
@@ -33,8 +43,6 @@ button:disabled, button[disabled]
 .con-tooltip
   position: relative
   border-radius: 9px
-  padding: 10px 5px
-  margin: 10px 0px
   display: inline-block
   transition: all 0.3s ease-in-out
   cursor: default
@@ -49,9 +57,9 @@ button:disabled, button[disabled]
   width: 100%
   padding: 0px 20px
   background: #333
-  color: #E086D3
+  color: #fff
   position: absolute
-  top: -170%
+  top: -270%
   left: -25%
   border-radius: 9px
   font-size: 16px
@@ -59,6 +67,7 @@ button:disabled, button[disabled]
   transition: all 0.3s ease-in-out
   box-shadow: 0 0 3px rgba(56, 54, 54, 0.86)
   display: flex
+  min-height: 100px
   &::after
     content: " "
     width: 0
@@ -92,8 +101,17 @@ button:disabled, button[disabled]
 	width: 100px
 	margin-right: 10px
 
+.tooltip-txt
+  padding-top: 10px
+
 .tooltip-txt > p
 	margin: 0px
+
+.loader
+  display: inline-block
+  text-align: center
+  width: 100%
+  padding-top: 15vh
 
 .lds-dual-ring 
   display: inline-block
@@ -153,11 +171,10 @@ button:disabled, button[disabled]
 
 .read-more
   width:auto !important
-  text-decoration: none
 
 .content
   width: 80%
-  margin: auto
+  margin: 20px auto
 
 .project-heading
   text-align: center
@@ -176,6 +193,20 @@ button:disabled, button[disabled]
   max-width: 100%
   width: auto
   margin: auto
+
+header
+  display: inline-block
+  background-color: #222
+  padding: 10px 0px
+  width: 100%
+  text-align: center
+  box-shadow: 0px 1px 5px 0px #888888
+  margin-bottom: 20px
+
+header > h1
+  font-size: 2rem
+  color: #fff
+  margin: 0px
 
 
 

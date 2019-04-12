@@ -5,9 +5,31 @@ const fetch = require('node-fetch');
 function ProjectData() {
 	this.data = null;
 	this.page = null;
+	this.pageDic = {};
 }
 
-ProjectData.prototype.getData = function(page) {
+ProjectData.prototype.setProjectData = function(data) {
+	for(let i = 0; i < data.length; i++) {
+		this.pageDic[data[i].id] = data[i];
+	}
+}
+
+ProjectData.prototype.getSingleProject = function(id) {
+	return new Promise((resolve, reject) => {
+		if(this.pageDic[id] === undefined) {
+			let url = `http://api.hackaday.io/v1/projects/${id}?per_page=10&api_key=${config.apiKey}`;
+			fetch(url)
+		  .then(response => response.json())
+		  .then(data => {
+		    resolve(data);
+		  });
+		} else {
+			resolve(this.pageDic[id]);
+		}
+	});
+}
+
+ProjectData.prototype.getPageData = function(page) {
 	return new Promise((resolve, reject) => {
 		if(page === this.page && this.data) {
 			resolve(this.data);
@@ -16,6 +38,7 @@ ProjectData.prototype.getData = function(page) {
 			fetch(url)
 		    .then(response => response.json())
 		    .then(data => {
+		    	this.setProjectData(data.projects);
 		    	let userId = '';
 		    	for(let i = 0; i < data.projects.length; i++) {
 		    		userId = userId + data.projects[i].owner_id + ',';

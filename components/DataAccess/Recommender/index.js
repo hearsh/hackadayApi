@@ -1,4 +1,6 @@
 const MaxHeap = require(`../MaxHeap/index.js`);
+const config = require(`../../Credentials/index.js`);
+const fetch = require('node-fetch');
 
 function Recommender() {
 	this.data = {
@@ -67,6 +69,10 @@ Recommender.prototype.addUser = function(user) {
 }
 
 Recommender.prototype.getRecommendation = function() {
+	MaxHeap.clearHeap();
+	if(this.data.tags === null) {
+		return null;
+	}
 	for(key in this.data.tags) {
 		MaxHeap.addToHeap({
 			'tag': key,
@@ -77,8 +83,24 @@ Recommender.prototype.getRecommendation = function() {
 }
 
 Recommender.prototype.fetchRecommendation = function() {
-	let tags = this.getRecommendation()
-	console.log(tags);
+	return new Promise((resolve, reject) => {
+		let tags = this.getRecommendation();
+		if(tags) {
+			let tagTxt = tags.join();
+			let url = `http://api.hackaday.io/v1/projects/search?search_term=${tagTxt}&per_page=3&api_key=${config.apiKey}`;
+			fetch(url)
+		  .then(response => response.json())
+		  .then(data => {
+		  	if(data.projects.length) {
+		  		for(let i = 0; i < data.projects.length; i++) {
+			  		data.projects[i]
+			  	}
+		  	}
+		  });
+		} else {
+			resolve(null);
+		}
+	});
 }
 
 module.exports = new Recommender();

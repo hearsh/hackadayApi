@@ -36,7 +36,8 @@ const GenerateToltip = () => {
 	GetRecommendation();
 }
 
-const GetRecommendation = () => {
+const GetRecommendation = async () => {
+	let recommenderDiv = document.getElementById('recommender');
 	let url = `/getRecommendation`;
 	fetch(url, {
 	  method: "GET",

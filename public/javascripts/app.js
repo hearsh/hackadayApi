@@ -33,6 +33,18 @@ const GenerateToltip = () => {
 			userDivs[i].appendChild(div);
 		}
 	});
+	GetRecommendation();
+}
+
+const GetRecommendation = () => {
+	let url = `/getRecommendation`;
+	fetch(url, {
+	  method: "GET",
+	})
+	.then(response => response.json())
+	.then(userData => {
+		console.log(userData);
+	});
 }
 
 const CreateLoadingScreen = (project) => {

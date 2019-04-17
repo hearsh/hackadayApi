@@ -4,7 +4,6 @@ body
 
 Card
 	display: flex
-	margin: auto
 	border-radius: 5px
 	border: 1px solid #ebebeb
 	width: 100%
@@ -25,7 +24,7 @@ img
 
 .text-div
 	padding: 0 10px
-	width: auto
+	width: -webkit-fill-available
 
 .text-div > p
   margin: 0px
@@ -175,6 +174,9 @@ button:disabled, button[disabled]
 .content
   width: 80%
   margin: 20px auto
+  display: flex
+  align-items: flex-start
+  align-content: flex-start
 
 .project-heading
   text-align: center
@@ -207,6 +209,19 @@ header > h1
   font-size: 2rem
   color: #fff
   margin: 0px
+
+.recommender
+  width: 30%
+  margin: 5px 20px
+  box-shadow: 0px 1px 5px 0px #888888
+  background-color: #222
+  color: #fff
+  text-align: center
+  border-radius: 5px
+
+project
+  width: 70%
+  align-self: stretch
 
 
 

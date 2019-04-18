@@ -1,3 +1,6 @@
+const fetch = require('node-fetch');
+const config = require(`../../Credentials/index.js`);
+
 function Userdata() {
 	this.users = null;
 	this.userDic = {};
@@ -23,15 +26,24 @@ Userdata.prototype.getUserName = function (id) {
 }
 
 Userdata.prototype.getUserData = function (id) {
-	if(this.userDic[id] !== undefined) {
-		return this.userDic[id];
-	} else {
-		for(let i = 0 ; i < this.users.length; i++) {
-			if(this.users[i].id === id) {
-				return this.users[i];
+	return new Promise((resolve, reject) => {
+		if(this.userDic[id] !== undefined) {
+			resolve(this.userDic[id]);
+		} else if(this.users !== null) {
+			for(let i = 0 ; i < this.users.length; i++) {
+				if(this.users[i].id === id) {
+					resolve(this.users[i]);
+				}
 			}
+		} else {
+			let url = `http://api.hackaday.io/v1/users/${id}?api_key=${config.apiKey}`;
+			fetch(url)
+		  .then(response => response.json())
+		  .then(data => {
+		  	resolve(data);
+		  });
 		}
-	}
+	});
 }
 
 Userdata.prototype.getAllUsers = function () {

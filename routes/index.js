@@ -5,7 +5,7 @@ const router = express.Router();
 const template = require(`../components/Layouts/GenTemplate/index.js`);
 const Project = require(`../components/Layouts/Attributes/Project/index.js`);
 const ProjectData = require(`../components/DataAccess/Projectdata/index.js`);
-const UserName = require(`../components/DataAccess/Userdata/index.js`);
+const UserData = require(`../components/DataAccess/Userdata/index.js`);
 const Card = require(`../components/Layouts/Card/index.js`);
 const Arrows = require(`../components/Layouts/Arrows/index.js`);
 const SingleProject = require(`../components/Layouts/SingleProject/index.js`);
@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
 	ProjectData.getPageData(1).then(data => {
 		let allCards = '';
 		data.projects.forEach((singleProject) => {
-			allCards = allCards + Card.getCardTag(singleProject, UserName.getUserName(singleProject.owner_id));
+			allCards = allCards + Card.getCardTag(singleProject, UserData.getUserName(singleProject.owner_id));
 		});
 		let project = Project.getProjectTag();
 		let addIndex = project.indexOf('</Project>');
@@ -47,15 +47,21 @@ router.get('/projects/:id', function(req, res, next) {
 		let modifiedTemp = template.replace('<script type="application/javascript" src="./javascripts/app.js"></script>', "");
 		addIndex = modifiedTemp.indexOf('</body>');
 		let templateDiv = [modifiedTemp.slice(0, addIndex), content, modifiedTemp.slice(addIndex)].join('');
-		Recommender.setRecommender(projectdata.tags, projectdata.owner_id);
-		res.set({'content-type': 'text/html'}).status(200).send(templateDiv);
+		UserData.getUserData(projectdata.owner_id).then(data => {
+			Recommender.setRecommender(projectdata.tags, data.tags);
+			res.set({'content-type': 'text/html'}).status(200).send(templateDiv);
+		});
 	});
 });
 
 router.get('/getRecommendation', function(req, res, next) {
-	Recommender.fetchRecommendation();
-	res.set({'content-type': 'text/html'}).status(200).send({
-		'data': null,
+	Recommender.fetchRecommendation('projects').then((projectData) => {
+		Recommender.fetchRecommendation('users').then((usersData) => {
+			res.status(200).json({
+				'projectData': projectData,
+				'usersData': usersData,
+			});
+		});
 	});
 });
 
@@ -64,7 +70,7 @@ router.post('/getPage', function(req, res, next) {
 	ProjectData.getPageData(page).then(data => {
 		let allCards = '';
 		data.projects.forEach((singleProject) => {
-			allCards = allCards + Card.getCardTag(singleProject, UserName.getUserName(singleProject.owner_id));
+			allCards = allCards + Card.getCardTag(singleProject, UserData.getUserName(singleProject.owner_id));
 		});
 		let arrows;
 		page = parseInt(page);

@@ -38,13 +38,55 @@ const GenerateToltip = () => {
 
 const GetRecommendation = async () => {
 	let recommenderDiv = document.getElementById('recommender');
+	let projectDiv = document.getElementById('projects-recommended');
+	if(projectDiv) {
+		ClearDiv(projectDiv);
+		projectDiv.remove();
+	}
+	let userDiv = document.getElementById('users-recommended');
+	if(userDiv) {
+		ClearDiv(userDiv);
+		userDiv.remove();
+	}
 	let url = `/getRecommendation`;
 	fetch(url, {
 	  method: "GET",
 	})
 	.then(response => response.json())
-	.then(userData => {
-		console.log(userData);
+	.then(data => {
+		console.log(data);
+		if(data.projectData) {
+			let projectDiv = document.createElement("div");
+			projectDiv.style = 'text-align: left; padding: 10px';
+			projectDiv.innerHTML = '<b>Projects</b>';
+			projectDiv.id = 'projects-recommended';
+			let ul = document.createElement("ul");
+			for(key in data.projectData) {
+				let listItem = document.createElement("li");
+				listItem.innerHTML = `<a href='${data.projectData[key].link}' style='color:#fff;'>${data.projectData[key].name}</a>`;
+				ul.appendChild(listItem);
+			}
+			if(ul.firstChild) {
+				projectDiv.appendChild(ul);
+				recommenderDiv.appendChild(projectDiv);
+			}
+		}
+		if(data.usersData) {
+			let userDiv = document.createElement("div");
+			userDiv.style = 'text-align: left; padding: 10px';
+			userDiv.innerHTML = '<b>Users</b>';
+			userDiv.id = 'users-recommended';
+			let ul = document.createElement("ul");
+			for(key in data.usersData) {
+				let listItem = document.createElement("li");
+				listItem.innerHTML = `<a href='${data.usersData[key].link}' style='color:#fff;' target='blank'>${data.usersData[key].name}</a>`;
+				ul.appendChild(listItem);
+			}
+			if(ul.firstChild) {
+				userDiv.appendChild(ul);
+				recommenderDiv.appendChild(userDiv);
+			}
+		}
 	});
 }
 
@@ -118,11 +160,11 @@ if(hash.indexOf('#') !== -1) {
 	if(!isNaN(page)) {
 		GetUrl();
 	}
-}
-
-if(document.readyState === "complete" || 
-	(document.readyState !== "loading" && !document.documentElement.doScroll)){
- 	GenerateToltip();
 } else {
-  document.addEventListener("DOMContentLoaded", GenerateToltip);
+	if(document.readyState === "complete" || 
+		(document.readyState !== "loading" && !document.documentElement.doScroll)){
+	 	GenerateToltip();
+	} else {
+	  document.addEventListener("DOMContentLoaded", GenerateToltip);
+	}
 }

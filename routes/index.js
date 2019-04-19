@@ -66,14 +66,13 @@ router.get('/getRecommendation', function(req, res, next) {
 });
 
 router.post('/getPage', function(req, res, next) {
-	let page = req.body.id;
+	let page = parseInt(req.body.id);
 	ProjectData.getPageData(page).then(data => {
 		let allCards = '';
 		data.projects.forEach((singleProject) => {
 			allCards = allCards + Card.getCardTag(singleProject, UserData.getUserName(singleProject.owner_id));
 		});
 		let arrows;
-		page = parseInt(page);
 		if(page !== 1) {
 			arrows = Arrows.getArrows(page + 1, page - 1);
 		} else {

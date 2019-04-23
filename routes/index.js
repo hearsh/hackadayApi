@@ -48,7 +48,7 @@ router.get('/projects/:id', function(req, res, next) {
 		addIndex = modifiedTemp.indexOf('</body>');
 		let templateDiv = [modifiedTemp.slice(0, addIndex), content, modifiedTemp.slice(addIndex)].join('');
 		UserData.getUserData(projectdata.owner_id).then(data => {
-			Recommender.setRecommender(projectdata.tags, data.tags);
+			Recommender.setRecommender(projectdata.tags, data.tags, projectdata.id);
 			res.set({'content-type': 'text/html'}).status(200).send(templateDiv);
 		});
 	});

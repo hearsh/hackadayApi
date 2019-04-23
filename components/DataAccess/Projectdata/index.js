@@ -3,10 +3,23 @@ const usersApi = require(`../Userdata/index.js`);
 const fetch = require('node-fetch');
 
 function ProjectData() {
-	this.data = null;
 	this.pageNumber = null;
+	this.lastPage = null;
 	this.pageDic = {};
-	this.pageCache = {};
+	this.pageCache = {
+		'current': {
+			'pageNumber': null,
+			'data': null,
+		},
+		'prev': {
+			'pageNumber': null,
+			'data': null,
+		},
+		'next': {
+			'pageNumber': null,
+			'data': null,
+		},
+	};
 }
 
 ProjectData.prototype.returnPageNumber = function() {
@@ -14,8 +27,8 @@ ProjectData.prototype.returnPageNumber = function() {
 }
 
 ProjectData.prototype.setProjectData = function(data) {
-	for(let i = 0; i < data.length; i++) {
-		this.pageDic[data[i].id] = data[i];
+	for(let i = 0; i < data.projects.length; i++) {
+		this.pageDic[data.projects[i].id] = data.projects[i];
 	}
 }
 
@@ -34,17 +47,36 @@ ProjectData.prototype.getSingleProject = function(id) {
 	});
 }
 
-ProjectData.prototype.setCache = async function(page) {
-	let current = null;
-	let prev = null;
-	let next = null;
-	if(this.pageCache.current !== undefined) {
-		if(this.pageCache.prev !== undefined) {
-			if(this.pageCache.prev.pageNumber === page - 1) {
-
-			}
+ProjectData.prototype.checkIfPageExists = function(page) {
+	let check = ['current', 'prev', 'next'];
+	for(let i = 0; i < check.length; i++) {
+		if(this.pageCache[check[i]].pageNumber && this.pageCache[check[i]].pageNumber === page) {
+			return check[i];
 		}
 	}
+	return null;
+}
+
+ProjectData.prototype.setCache = async function(page, type) {
+	return new Promise((resolve, reject) => {
+		if(page !== 0 && page !== this.lastPage) {
+			let check = this.checkIfPageExists(page);
+			if(check) {
+				this.pageCache[type].data = this.pageCache[check].data;
+				this.pageCache[type].pageNumber = page;
+				resolve();
+			} else {
+				this.fetchFromHackaday(page).then(data => {
+					this.pageCache[type].data = data;
+					this.pageCache[type].pageNumber = page;
+					console.log(`Cached page ${page}`);
+					resolve();
+				});
+			}
+		} else {
+			resolve();
+		}
+	});
 }
 
 ProjectData.prototype.fetchFromHackaday = function(page) {
@@ -54,6 +86,9 @@ ProjectData.prototype.fetchFromHackaday = function(page) {
 	  .then(response => response.json())
 	  .then(data => {
 	  	let userId = '';
+	  	if(!this.lastPage) {
+	  		this.lastPage = data.last_page;
+	  	}
 	  	for(let i = 0; i < data.projects.length; i++) {
 	  		userId = userId + data.projects[i].owner_id + ',';
 	  	}
@@ -73,13 +108,29 @@ ProjectData.prototype.fetchFromHackaday = function(page) {
 ProjectData.prototype.getPageData = function(page) {
 	return new Promise((resolve, reject) => {
 		this.pageNumber = page;
-		if(page === this.pageNumber && this.data) {
-			resolve(this.data);
+		let check = this.checkIfPageExists(page);
+		if(check) {
+			if(check === 'current') {
+				resolve(this.pageCache[check].data.projects);
+			} else {
+				let returnData = Object.assign({}, this.pageCache[check]);
+				this.setCache(page - 1, 'prev').then(value => {
+					this.setCache(page + 1, 'next').then(value => {
+						this.pageCache['current'] = returnData;
+					});
+				});
+				this.setProjectData(returnData.data.projects);
+				usersApi.setUserData(returnData.data.users.users);
+				resolve(returnData.data.projects);
+			}
 		} else {
 			this.fetchFromHackaday(page).then(data => {
-				this.data = data.project;
 				this.pageNumber = page;
-				this.setProjectData(data.projects.projects);
+				this.pageCache['current'].data = data;
+				this.pageCache['current'].pageNumber = page;
+				this.setCache(page - 1, 'prev');
+				this.setCache(page + 1, 'next');
+				this.setProjectData(data.projects);
 				usersApi.setUserData(data.users.users);
 				resolve(data.projects);
 			});

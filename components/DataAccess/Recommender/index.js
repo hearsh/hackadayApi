@@ -1,4 +1,4 @@
-const MaxHeap = require(`../MaxHeap/index.js`);
+const MinHeap = require(`../MinHeap/index.js`);
 const config = require(`../../Credentials/index.js`);
 const fetch = require('node-fetch');
 
@@ -8,17 +8,18 @@ function Recommender() {
 		'users': null,
 		'tagLength': 0,
 		'userLength': 0,
+		'projectsViewed': {},
 	}
-
 }
 
-Recommender.prototype.setRecommender = function(tags, users) {
+Recommender.prototype.setRecommender = function(tags, users, projectId) {
 	if(!this.data.tags && tags) {
 		this.data.tags = {};
 	}
 	if(!this.data.users && users) {
 		this.data.users = {};
 	}
+	this.data.projectsViewed[projectId] = true;
 	this.addTags(tags);
 	this.addUsers(users);
 }
@@ -62,13 +63,13 @@ Recommender.prototype.addUsers = function(users) {
 }
 
 Recommender.prototype.getRecommendation = function(type) {
-	MaxHeap.clearHeap();
+	MinHeap.clearHeap();
 	if(type === 'projects') {
 		if(this.data.tags === null) {
 			return null;
 		}
 		for(key in this.data.tags) {
-			MaxHeap.addToHeap({
+			MinHeap.addToHeap({
 				'id': key,
 				'score': this.data.tags[key].score,
 			});
@@ -79,13 +80,13 @@ Recommender.prototype.getRecommendation = function(type) {
 			return null;
 		}
 		for(key in this.data.users) {
-			MaxHeap.addToHeap({
+			MinHeap.addToHeap({
 				'id': key,
 				'score': this.data.users[key].score,
 			});
 		}
 	}
-	return MaxHeap.getHeap();
+	return MinHeap.getHeap();
 }
 
 Recommender.prototype.fetchProjectData = function(tags) {
@@ -93,18 +94,24 @@ Recommender.prototype.fetchProjectData = function(tags) {
 		if(tags === '') {
 			resolve(null);
 		}
-		let url = `http://api.hackaday.io/v1/projects/search?search_term=${tags}&per_page=3&api_key=${config.apiKey}`;
+		let url = `http://api.hackaday.io/v1/projects/search?search_term=${tags}&per_page=5&api_key=${config.apiKey}`;
 		fetch(url)
 	  .then(response => response.json())
 	  .then(data => {
 	  	let finalData = {};
+	  	let check = 0;
 	  	if(data.projects.length) {
 	  		for(let i = 0; i < data.projects.length; i++) {
-	  			if(data.projects[i].name !== undefined) {
+	  			if(data.projects[i].name !== undefined && 
+	  				this.data.projectsViewed[data.projects[i].id] === undefined) {
 	  				finalData[data.projects[i].id] = {
 			  			'name': data.projects[i].name,
 			  			'link': `projects/${data.projects[i].id}`,
 			  		};
+			  		check += 1;
+			  		if(check === 3) {
+			  			break;
+			  		}
 	  			}
 		  	}
 	  	}

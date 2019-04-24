@@ -6,13 +6,15 @@
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "chromedriver": "^74.0.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "ejs": "^2.6.1",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
     "morgan": "~1.9.0",
-    "node-fetch": "^2.3.0",
+    "nightwatch": "^1.0.19",
     "node-sass": "^4.11.0",
     "nodemon": "^1.18.10"
   }

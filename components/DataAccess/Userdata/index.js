@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const axios = require('axios');
 const config = require(`../../Credentials/index.js`);
 
 function Userdata() {
@@ -37,10 +37,10 @@ Userdata.prototype.getUserData = function (id) {
 			}
 		} else {
 			let url = `http://api.hackaday.io/v1/users/${id}?api_key=${config.apiKey}`;
-			fetch(url)
-		  .then(response => response.json())
+			axios.get(url)
 		  .then(data => {
-		  	resolve(data);
+		  	console.log(data.data);
+		  	resolve(data.data);
 		  });
 		}
 	});

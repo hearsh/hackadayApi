@@ -11,14 +11,23 @@ function SingleProject() {
 
 SingleProject.prototype.getTemplate = function(data, returnPageNumber) {
 	let returnBtn;
+	let imgTag = '';
+	let ParaTag = '';
 	if(returnPageNumber === 1) {
 		returnBtn = Anchor.getAnchorTag('Back', 'btn', '/');
 	} else {
 		returnBtn = Anchor.getAnchorTag('Back', 'btn', `/#${returnPageNumber}`);
 	}
 	let heading = Anchor.getAnchorTag(Heading.getHeadingTag(data.name, 'h1'), 'project-heading', data.url);
-	let imgTag = Image.getImgTag(data.image_url, data.name);
-	let ParaTag = Paragraph.getParagraphTag(data.description, 'project-desc');
+	if(data.image_url) {
+		imgTag = Image.getImgTag(data.image_url, data.name);
+	}
+	if(data.description === '') {
+		ParaTag = Paragraph.getParagraphTag(data.summary, 'project-desc');
+	} else {
+		ParaTag = Paragraph.getParagraphTag(data.description, 'project-desc');
+	}
+	
 	let project = Project.getProjectTag('single-project');
 	let addIndex = project.indexOf('</Project>');
 	let template = [project.slice(0, addIndex), heading, imgTag, ParaTag, returnBtn,  project.slice(addIndex)].join('');

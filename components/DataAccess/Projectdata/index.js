@@ -1,6 +1,6 @@
 const config = require(`../../Credentials/index.js`);
 const usersApi = require(`../Userdata/index.js`);
-const fetch = require('node-fetch');
+const axios = require('axios');
 
 function ProjectData() {
 	this.pageNumber = null;
@@ -35,12 +35,13 @@ ProjectData.prototype.setProjectData = function(data) {
 ProjectData.prototype.getSingleProject = function(id) {
 	return new Promise((resolve, reject) => {
 		if(this.pageDic[id] === undefined) {
-			let url = `http://api.hackaday.io/v1/projects/${id}?per_page=10&api_key=${config.apiKey}`;
-			fetch(url)
-		  .then(response => response.json())
+			let url = `http://api.hackaday.io/v1/projects/${id}?api_key=${config.apiKey}`;
+			axios.get(url)
 		  .then(data => {
-		    resolve(data);
-		  });
+		    resolve(data.data);
+		  }).catch(err => {
+		  	console.log(err);
+		  })
 		} else {
 			resolve(this.pageDic[id]);
 		}
@@ -82,9 +83,9 @@ ProjectData.prototype.setCache = async function(page, type) {
 ProjectData.prototype.fetchFromHackaday = function(page) {
 	return new Promise((resolve, reject) => {
 		let url = `http://api.hackaday.io/v1/projects?page=${page}&per_page=10&api_key=${config.apiKey}`;
-		fetch(url)
-	  .then(response => response.json())
+		axios.get(url)
 	  .then(data => {
+	  	data = data.data;
 	  	let userId = '';
 	  	if(!this.lastPage) {
 	  		this.lastPage = data.last_page;
@@ -93,9 +94,9 @@ ProjectData.prototype.fetchFromHackaday = function(page) {
 	  		userId = userId + data.projects[i].owner_id + ',';
 	  	}
 	  	url = `http://api.hackaday.io/v1/users/batch?ids=${userId}&api_key=${config.apiKey}`
-	  	fetch(url)
-	  	.then(response => response.json())
+	  	axios.get(url)
 	  	.then(userData => {
+	  		userData = userData.data;
 	    	resolve({
 	    		'projects': data,
 	    		'users': userData,

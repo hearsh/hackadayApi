@@ -1,6 +1,6 @@
 const MinHeap = require(`../MinHeap/index.js`);
 const config = require(`../../Credentials/index.js`);
-const fetch = require('node-fetch');
+const axios = require('axios');
 
 function Recommender() {
 	this.data = {
@@ -95,9 +95,9 @@ Recommender.prototype.fetchProjectData = function(tags) {
 			resolve(null);
 		}
 		let url = `http://api.hackaday.io/v1/projects/search?search_term=${tags}&per_page=5&api_key=${config.apiKey}`;
-		fetch(url)
-	  .then(response => response.json())
+		axios.get(url)
 	  .then(data => {
+	  	data = data.data;
 	  	let finalData = {};
 	  	let check = 0;
 	  	if(data.projects.length) {
@@ -106,7 +106,7 @@ Recommender.prototype.fetchProjectData = function(tags) {
 	  				this.data.projectsViewed[data.projects[i].id] === undefined) {
 	  				finalData[data.projects[i].id] = {
 			  			'name': data.projects[i].name,
-			  			'link': `projects/${data.projects[i].id}`,
+			  			'link': `/projects/${data.projects[i].id}`,
 			  		};
 			  		check += 1;
 			  		if(check === 3) {
@@ -128,9 +128,9 @@ Recommender.prototype.fetchUserData = function(tags) {
 		let finalData = {};
 		for(let i = 0; i < tags.length; i++) {
 			let url = `http://api.hackaday.io/v1/users/search?tag=${tags[i].id}&per_page=1&api_key=${config.apiKey}`;
-			fetch(url)
-		  .then(response => response.json())
+			axios.get(url)
 		  .then(data => {
+		  	data = data.data;
 		  	if(data.users) {
 		  		finalData[data.users[0].id] = {
 		  			'name': data.users[0].username,

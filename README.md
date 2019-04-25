@@ -18,8 +18,16 @@ It also provides the user with recommendations about projects and users, Recomme
 * Enter the project directory
 * Open your cmd
 * Type `yarn` or `npm install`
+* Go to the `index_help.js` file under `Components/Credentials`
+* Enter your unique api key from [hackaday.io](https://hackaday.io)
+* Change the file from `index_help.js` to `index.js`
 * Type `yarn start` or `npm start`
 * Go to `localhost:3000`
-* enjoy browsing and hack away.
+* Enjoy browsing and hack away.
 
 ## Detailed description on the project
+
+### Components
+
+#### Credentials
+Stores the c

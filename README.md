@@ -15,7 +15,7 @@ Created my own component system to facilitate server side rendering. All operati
 
 ## Requirements
 * [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/en/)
-* [nodeJs](https://nodejs.org/en/)
+* [NodeJs](https://nodejs.org/en/)
 
 ## How to Run This?
 * Clone or download the project
@@ -61,4 +61,6 @@ Contains all the styling for the project.
 Contains the javascript files for dynamic content loading. Loads the user data dn tooltips dynamically after the page loads. It also changes the pages dynamically using hash routes. Generates recommendations dynamically to.
 
 ### Routes
+
+#### Index
 

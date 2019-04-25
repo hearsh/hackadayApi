@@ -1,7 +1,6 @@
 const Heading = require('../Attributes/Heading/index.js');
 const Paragraph = require('../Attributes/Paragraph/index.js');
 const Div = require('../Attributes/Div/index.js');
-const User = require('../User/index.js');
 const Anchor = require('../Attributes/Anchor/index.js');
 
 function Card() {

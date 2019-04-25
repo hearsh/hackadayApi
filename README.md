@@ -10,16 +10,16 @@ All data is fetched from the [hackaday API](https://dev.hackaday.io/doc/api). Th
 It also provides the user with recommendations about projects and users, Recommendations are unique to each browsing session. Recommendations are based tags for users and projects, shows projects similar to projects where users clicks on read more.
 
 ## Requirements
-..* [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/en/)
-..* [nodeJs](https://nodejs.org/en/)
+* [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/en/)
+* [nodeJs](https://nodejs.org/en/)
 
 ## How to Run This?
-..* Clone or download the project
-..* Enter the project directory
-..* Open your cmd
-..* Type `yarn` or `npm install`
-..* Type `yarn start` or `npm start`
-..* Go to `localhost:3000`
-..* enjoy browsing and hack away.
+* Clone or download the project
+* Enter the project directory
+* Open your cmd
+* Type `yarn` or `npm install`
+* Type `yarn start` or `npm start`
+* Go to `localhost:3000`
+* enjoy browsing and hack away.
 
 ## Detailed description on the project

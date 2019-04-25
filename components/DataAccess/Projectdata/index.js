@@ -1,3 +1,7 @@
+/*
+Helper functions for project data.
+Fetches data from hackaday api for projects and users.
+*/
 const config = require(`../../Credentials/index.js`);
 const usersApi = require(`../Userdata/index.js`);
 const axios = require('axios');

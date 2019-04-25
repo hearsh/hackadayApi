@@ -13,7 +13,11 @@ const Div = require(`../components/Layouts/Attributes/Div/index.js`);
 const Heading = require(`../components/Layouts/Attributes/Heading/index.js`);
 const Recommender = require(`../components/DataAccess/Recommender/index.js`);
 
-/* GET home page. */
+/* 
+GET home page.
+Fetches data for 10 prjects and creates an html 
+view based on the helper functions.
+*/
 router.get('/', function(req, res, next) {
 	ProjectData.getPageData(1).then(data => {
 		let allCards = '';
@@ -37,6 +41,11 @@ router.get('/', function(req, res, next) {
 	});
 });
 
+/*
+GET single project
+Fetches single project data based on id.
+Generates html view for it and sends it.
+*/
 router.get('/projects/:id', function(req, res, next) {
 	let id = req.params.id;
 	ProjectData.getSingleProject(id).then(projectdata => {
@@ -54,6 +63,9 @@ router.get('/projects/:id', function(req, res, next) {
 	});
 });
 
+/*
+Sends recomendations for users and projects.
+*/
 router.get('/getRecommendation', function(req, res, next) {
 	Recommender.fetchRecommendation('projects').then((projectData) => {
 		Recommender.fetchRecommendation('users').then((usersData) => {
@@ -65,6 +77,10 @@ router.get('/getRecommendation', function(req, res, next) {
 	});
 });
 
+/*
+POST request for a page
+Fetches data for a single page, ased on the page number.
+*/
 router.post('/getPage', function(req, res, next) {
 	let page = parseInt(req.body.id);
 	ProjectData.getPageData(page).then(data => {

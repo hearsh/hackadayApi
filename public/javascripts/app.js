@@ -1,3 +1,7 @@
+/*
+Generates a tooltip for each users of every project on the page
+Dynamically creates a view for the same.
+*/
 const GenerateToltip = () => {
 	let url = `/users`;
 	fetch(url, {
@@ -36,6 +40,10 @@ const GenerateToltip = () => {
 	GetRecommendation();
 }
 
+/*
+Gets recommendations if any.
+If there exist some recomendations it displays them for the user.
+*/
 const GetRecommendation = async () => {
 	let recommenderDiv = document.getElementById('recommender');
 	let projectDiv = document.getElementById('projects-recommended');
@@ -90,6 +98,9 @@ const GetRecommendation = async () => {
 	});
 }
 
+/*
+Generates a loading screen
+*/
 const CreateLoadingScreen = (project) => {
 	let Parentdiv = document.createElement("div");
 	Parentdiv.className = "loader";
@@ -104,6 +115,9 @@ const CreateLoadingScreen = (project) => {
 	project.appendChild(Parentdiv);
 }
 
+/*
+Clears all child elements from a div.
+*/
 const ClearDiv = (div) => {
 	while (div.firstChild) {
 		div.removeChild(div.firstChild);
@@ -111,6 +125,10 @@ const ClearDiv = (div) => {
 	return true
 }
 
+/*
+Checks if the hash route contains a page number.
+Fetches data based on the page number.
+*/
 const GetUrl = () => {
 	let hash = window.location.hash;
 	if(hash.indexOf('#') !== -1) {
@@ -148,11 +166,19 @@ const GetUrl = () => {
 	}
 }
 
+/*
+Changes the hash route of the page.
+fires the GetUrl() after.
+*/
 const Change = (id) => {
 	window.location.hash = `${id}`;
 	GetUrl();
 }
 
+/*
+Checks if the hash route has been changed.
+Fires the tooltip if the page is loaded.
+*/
 let hash = window.location.hash;
 if(hash.indexOf('#') !== -1) {
 	let index = hash.indexOf('#');

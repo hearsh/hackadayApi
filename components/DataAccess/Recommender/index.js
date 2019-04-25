@@ -1,3 +1,7 @@
+/*
+Maintains recommender data for user.
+Helper functions to set recommendations and get them.
+*/
 const MinHeap = require(`../MinHeap/index.js`);
 const config = require(`../../Credentials/index.js`);
 const axios = require('axios');

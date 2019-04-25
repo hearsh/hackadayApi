@@ -1,3 +1,6 @@
+/*
+Helper functions to get user data.
+*/
 const axios = require('axios');
 const config = require(`../../Credentials/index.js`);
 

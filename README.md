@@ -17,6 +17,14 @@ Created my own component system to facilitate server side rendering. All operati
 * [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/en/)
 * [NodeJs](https://nodejs.org/en/)
 
+## Technologies & Languages Used
+* NodeJS
+* Git
+* SASS
+* Vanilla Javascript
+* Express
+* EJS
+
 ## How to Run the Application?
 * Clone or download the project
 * Enter the project directory

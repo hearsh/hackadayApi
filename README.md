@@ -17,7 +17,7 @@ Created my own component system to facilitate server side rendering. All operati
 * [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/en/)
 * [NodeJs](https://nodejs.org/en/)
 
-## How to Run This?
+## How to Run the Application?
 * Clone or download the project
 * Enter the project directory
 * Open your cmd
@@ -63,4 +63,7 @@ Contains the javascript files for dynamic content loading. Loads the user data d
 ### Routes
 
 #### Index
+Manages all the data for `/`, `/projects/:id`, `/getRecommendation`, `/getPage`. Deals with mostly project data. It creates the html for the page on the server and sends a `text/html` response back to the client. Puts all the componenets together.
 
+#### Users
+Manages the user data for `/users`. Fetches the user data and sends it back as a `json` response back to the client.

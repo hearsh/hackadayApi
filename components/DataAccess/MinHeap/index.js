@@ -1,3 +1,7 @@
+/*
+Helper functions for a Min Heap.
+Used to get the top three recomendations.
+*/
 function MinHeap() {
 	this.myHeap = [];
 	this.maxHeapSize = 3;

@@ -49,7 +49,6 @@ Generates html view for it and sends it.
 router.get('/projects/:id', function(req, res, next) {
 	let id = req.params.id;
 	ProjectData.getSingleProject(id).then(projectdata => {
-		console.log('flag01');
 		let singleProjectDiv = SingleProject.getTemplate(projectdata, ProjectData.returnPageNumber());
 		let divTag = Div.getDivTag('content');
 		let addIndex = divTag.indexOf('</div>');
@@ -57,10 +56,7 @@ router.get('/projects/:id', function(req, res, next) {
 		let modifiedTemp = template.replace('<script type="application/javascript" src="./javascripts/app.js"></script>', "");
 		addIndex = modifiedTemp.indexOf('</body>');
 		let templateDiv = [modifiedTemp.slice(0, addIndex), content, modifiedTemp.slice(addIndex)].join('');
-		console.log('flag02');
-		console.log(projectdata.owner_id)
 		UserData.getUserData(projectdata.owner_id).then(data => {
-			console.log('flag03');
 			Recommender.setRecommender(projectdata.tags, data.tags, projectdata.id);
 			res.set({'content-type': 'text/html'}).status(200).send(templateDiv);
 		});

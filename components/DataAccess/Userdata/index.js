@@ -30,6 +30,7 @@ Userdata.prototype.getUserName = function (id) {
 
 Userdata.prototype.getUserData = function (id) {
 	return new Promise((resolve, reject) => {
+		console.log(this.userDic[id]);
 		if(this.userDic[id] !== undefined) {
 			resolve(this.userDic[id]);
 		} else if(this.users !== null) {
@@ -38,14 +39,12 @@ Userdata.prototype.getUserData = function (id) {
 					resolve(this.users[i]);
 				}
 			}
-		} else {
-			let url = `http://api.hackaday.io/v1/users/${id}?api_key=${config.apiKey}`;
-			axios.get(url)
-		  .then(data => {
-		  	console.log(data.data);
-		  	resolve(data.data);
-		  });
 		}
+		let url = `http://api.hackaday.io/v1/users/${id}?api_key=${config.apiKey}`;
+		axios.get(url)
+	  .then(data => {
+	  	resolve(data.data);
+	  });
 	});
 }
 

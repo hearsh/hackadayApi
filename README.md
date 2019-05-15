@@ -30,8 +30,8 @@ Created my own component system to facilitate server side rendering. All operati
 * Enter the project directory
 * Open your cmd
 * Type `yarn` or `npm install`
-* Go to the `index_help.js` file under `components/Credentials`
-* Enter your unique api key from [hackaday.io](https://hackaday.io)
+* Open the file `index_help.js` in a text editor located at `components/Credentials`
+* Enter your unique api key from [hackaday.io](https://dev.hackaday.io)
 * Change the file from `index_help.js` to `index.js`
 * Type `yarn start` or `npm start`
 * Go to `localhost:3000`
